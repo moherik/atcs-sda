@@ -85,10 +85,25 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
 
 <script type="text/javascript">
+    function isMobile() {
+        const toMatch = [
+            /Android/i,
+            /webOS/i,
+            /iPhone/i,
+            /iPad/i,
+            /iPod/i,
+            /BlackBerry/i,
+            /Windows Phone/i
+        ];
+
+        return toMatch.some((toMatchItem) => {
+            return navigator.userAgent.match(toMatchItem);
+        });
+    }
+
     const cctvData = JSON.parse('<?= json_encode($cctv_list) ?>');
 
     const map = L.map('map').setView(new L.LatLng(-7.446090067540411, 112.71768320856496), 13);
-    map.panBy([-200, 0]);
     map.zoomControl.setPosition('bottomright');
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -96,6 +111,10 @@
     }).addTo(map);
 
     createMarker();
+
+    if (!isMobile()) {
+        map.panBy([-200, 0]);
+    }
 
     function createMarker() {
         if (!cctvData) return;
@@ -139,14 +158,21 @@
 
         if (Hls.isSupported()) {
             const hls = new Hls({
+                "debug": true,
                 "enableWorker": true,
                 "lowLatencyMode": true,
                 "backBufferLength": 90
             });
 
+            hls.autoLevelCapping = 0;
+
             hls.on(Hls.Events.ERROR, function(event, data) {
                 console.log(event, data);
             });
+
+            document.getElementById('videoModal').addEventListener('hide.bs.modal', () => {
+                hls.stopLoad();
+            })
 
             hls.loadSource(`/proxy?url=${btoa(videoSrc)}`);
             hls.attachMedia(video);
@@ -158,14 +184,22 @@
         }
     }
 
+    if (isMobile()) {
+        listSidebar.classList.add('d-none');
+    }
+
     function toggleSidebar() {
         const listSidebar = document.getElementById('listSidebar');
         if (listSidebar.classList.contains('d-none')) {
             listSidebar.classList.remove('d-none');
-            map.panBy([-200, 0]);
+            if (!isMobile()) {
+                map.panBy([-200, 0]);
+            }
         } else {
             listSidebar.classList.add('d-none');
-            map.panBy([200, 0]);
+            if (!isMobile()) {
+                map.panBy([200, 0]);
+            }
         }
     }
 </script>
