@@ -9,8 +9,8 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        error_reporting(1);
-        ini_set("display_errors", 1);
+        // error_reporting(1);
+        // ini_set("display_errors", 1);
 
         $factory = (new Factory)->withServiceAccount('../google-services.json');
         $remoteConfig = $factory->createRemoteConfig();
