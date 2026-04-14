@@ -84,7 +84,7 @@ class Home extends BaseController
 
         if (curl_errno($ch)) {
             http_response_code(502);
-            echo "Error fetching URL.";
+            echo "Error fetching URL. " . $url;
             exit;
         }
         curl_close($ch);
