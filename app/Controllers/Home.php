@@ -30,7 +30,7 @@ class Home extends BaseController
         }
 
         $cctv_list = array_map(function ($cctv) {
-            $videosrc = "https://" . $cctv->ip_address_server_cctv . ":" . $cctv->port_server_cctv_http . "/" . $cctv->path_server_cctv;
+            $videosrc = "http://" . $cctv->ip_address_server_cctv . ":" . $cctv->port_server_cctv_http . "" . $cctv->path_server_cctv;
             return [
                 "nama" => $cctv->nama,
                 "jalan" => $cctv->jalan,
