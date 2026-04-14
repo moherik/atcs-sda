@@ -7,3 +7,4 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/proxy', 'Home::proxy');
+$routes->get('/about-us', 'Home::about');
