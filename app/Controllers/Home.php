@@ -9,8 +9,8 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        // error_reporting(1);
-        // ini_set("display_errors", 1);
+        error_reporting(1);
+        ini_set("display_errors", 1);
 
         $factory = (new Factory)->withServiceAccount('../google-services.json');
         $remoteConfig = $factory->createRemoteConfig();
@@ -30,7 +30,7 @@ class Home extends BaseController
         }
 
         $cctv_list = array_map(function ($cctv) {
-            $videosrc = "http://" . $cctv->ip_address_server_cctv . ":" . $cctv->port_server_cctv_http . "/" . $cctv->path_server_cctv;
+            $videosrc = "https://" . $cctv->ip_address_server_cctv . ":" . $cctv->port_server_cctv_http . "/" . $cctv->path_server_cctv;
             return [
                 "nama" => $cctv->nama,
                 "jalan" => $cctv->jalan,
