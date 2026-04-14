@@ -105,4 +105,9 @@ class Home extends BaseController
 
         echo $response;
     }
+
+    public function about()
+    {
+        return view('about_us');
+    }
 }
